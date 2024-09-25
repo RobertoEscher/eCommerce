@@ -48,11 +48,18 @@ namespace eCommerce.Models.FluentAPI
 
             modelBuilder.Entity<Usuario>().HasKey("Id", "CPF");
             modelBuilder.Entity<Usuario>().HasKey(a => new { a.Id, a.CPF });
-            
+
             modelBuilder.Entity<Usuario>().HasAlternateKey("CPF", "Email");
             modelBuilder.Entity<Usuario>().HasNoKey();
 
+            /*
+             * One > 1 Propriedade de navegação do objeto único
+             * Many > 1 Propriedade de navegação do Tipo Lista/Coleção
+             */
 
+            modelBuilder.Entity<Usuario>().HasOne(usu => usu.Contato).WithOne(cont => cont.Usuario).HasForeignKey<Contato>(a => a.UsuarioId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Usuario>().HasMany(usu => usu.EnderecosEntrega).WithOne(end => end.Usuario).HasForeignKey(end => end.UsuarioId);
+            modelBuilder.Entity<Usuario>().HasMany(usu => usu.Departamentos).WithMany(dep => dep.Usuarios);
 
 
         }
