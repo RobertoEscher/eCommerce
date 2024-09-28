@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eCommerce.Office;
 
@@ -11,9 +12,10 @@ using eCommerce.Office;
 namespace eCommerce.Office.Migrations
 {
     [DbContext(typeof(eCommerceOfficeContext))]
-    partial class eCommerceOfficeContextModelSnapshot : ModelSnapshot
+    [Migration("20240928130247_TurmaSeeds")]
+    partial class TurmaSeeds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,6 +37,21 @@ namespace eCommerce.Office.Migrations
                     b.HasIndex("TurmasId");
 
                     b.ToTable("ColaboradorTurma");
+                });
+
+            modelBuilder.Entity("ColaboradorVeiculo", b =>
+                {
+                    b.Property<int>("ColaboradoresId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VeiculosId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ColaboradoresId", "VeiculosId");
+
+                    b.HasIndex("VeiculosId");
+
+                    b.ToTable("ColaboradorVeiculo");
                 });
 
             modelBuilder.Entity("eCommerce.Office.Models.Colaborador", b =>
@@ -113,62 +130,44 @@ namespace eCommerce.Office.Migrations
                         {
                             ColaboradorId = 1,
                             SetorId = 1,
-                            Criado = new DateTimeOffset(new DateTime(2024, 9, 28, 10, 59, 41, 358, DateTimeKind.Unspecified).AddTicks(890), new TimeSpan(0, -3, 0, 0, 0))
+                            Criado = new DateTimeOffset(new DateTime(2024, 9, 28, 10, 2, 46, 641, DateTimeKind.Unspecified).AddTicks(1865), new TimeSpan(0, -3, 0, 0, 0))
                         },
                         new
                         {
                             ColaboradorId = 6,
                             SetorId = 1,
-                            Criado = new DateTimeOffset(new DateTime(2024, 9, 28, 10, 59, 41, 358, DateTimeKind.Unspecified).AddTicks(919), new TimeSpan(0, -3, 0, 0, 0))
+                            Criado = new DateTimeOffset(new DateTime(2024, 9, 28, 10, 2, 46, 641, DateTimeKind.Unspecified).AddTicks(1904), new TimeSpan(0, -3, 0, 0, 0))
                         },
                         new
                         {
                             ColaboradorId = 5,
                             SetorId = 2,
-                            Criado = new DateTimeOffset(new DateTime(2024, 9, 28, 10, 59, 41, 358, DateTimeKind.Unspecified).AddTicks(921), new TimeSpan(0, -3, 0, 0, 0))
+                            Criado = new DateTimeOffset(new DateTime(2024, 9, 28, 10, 2, 46, 641, DateTimeKind.Unspecified).AddTicks(1906), new TimeSpan(0, -3, 0, 0, 0))
                         },
                         new
                         {
                             ColaboradorId = 4,
                             SetorId = 2,
-                            Criado = new DateTimeOffset(new DateTime(2024, 9, 28, 10, 59, 41, 358, DateTimeKind.Unspecified).AddTicks(922), new TimeSpan(0, -3, 0, 0, 0))
+                            Criado = new DateTimeOffset(new DateTime(2024, 9, 28, 10, 2, 46, 641, DateTimeKind.Unspecified).AddTicks(1908), new TimeSpan(0, -3, 0, 0, 0))
                         },
                         new
                         {
                             ColaboradorId = 7,
                             SetorId = 3,
-                            Criado = new DateTimeOffset(new DateTime(2024, 9, 28, 10, 59, 41, 358, DateTimeKind.Unspecified).AddTicks(924), new TimeSpan(0, -3, 0, 0, 0))
+                            Criado = new DateTimeOffset(new DateTime(2024, 9, 28, 10, 2, 46, 641, DateTimeKind.Unspecified).AddTicks(1909), new TimeSpan(0, -3, 0, 0, 0))
                         },
                         new
                         {
                             ColaboradorId = 2,
                             SetorId = 4,
-                            Criado = new DateTimeOffset(new DateTime(2024, 9, 28, 10, 59, 41, 358, DateTimeKind.Unspecified).AddTicks(925), new TimeSpan(0, -3, 0, 0, 0))
+                            Criado = new DateTimeOffset(new DateTime(2024, 9, 28, 10, 2, 46, 641, DateTimeKind.Unspecified).AddTicks(1911), new TimeSpan(0, -3, 0, 0, 0))
                         },
                         new
                         {
                             ColaboradorId = 3,
                             SetorId = 4,
-                            Criado = new DateTimeOffset(new DateTime(2024, 9, 28, 10, 59, 41, 358, DateTimeKind.Unspecified).AddTicks(926), new TimeSpan(0, -3, 0, 0, 0))
+                            Criado = new DateTimeOffset(new DateTime(2024, 9, 28, 10, 2, 46, 641, DateTimeKind.Unspecified).AddTicks(1913), new TimeSpan(0, -3, 0, 0, 0))
                         });
-                });
-
-            modelBuilder.Entity("eCommerce.Office.Models.ColaboradorVeiculo", b =>
-                {
-                    b.Property<int>("ColaboradorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VeiculoId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTimeOffset>("DataInicioDeVinculo")
-                        .HasColumnType("datetimeoffset");
-
-                    b.HasKey("ColaboradorId", "VeiculoId");
-
-                    b.HasIndex("VeiculoId");
-
-                    b.ToTable("ColaboradorVeiculo");
                 });
 
             modelBuilder.Entity("eCommerce.Office.Models.Setor", b =>
@@ -273,38 +272,6 @@ namespace eCommerce.Office.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Veiculos");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Nome = "FIAT - Argo",
-                            Placa = "ABC-1234"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Nome = "FIAT - Mobi",
-                            Placa = "DFG-1234"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Nome = "FIAT - Siena",
-                            Placa = "HIJ-1234"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Nome = "FIAT - Idea",
-                            Placa = "LMN-1234"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Nome = "FIAT - Toro",
-                            Placa = "OPQ-1234"
-                        });
                 });
 
             modelBuilder.Entity("ColaboradorTurma", b =>
@@ -318,6 +285,21 @@ namespace eCommerce.Office.Migrations
                     b.HasOne("eCommerce.Office.Models.Turma", null)
                         .WithMany()
                         .HasForeignKey("TurmasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ColaboradorVeiculo", b =>
+                {
+                    b.HasOne("eCommerce.Office.Models.Colaborador", null)
+                        .WithMany()
+                        .HasForeignKey("ColaboradoresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eCommerce.Office.Models.Veiculo", null)
+                        .WithMany()
+                        .HasForeignKey("VeiculosId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -341,40 +323,14 @@ namespace eCommerce.Office.Migrations
                     b.Navigation("Setor");
                 });
 
-            modelBuilder.Entity("eCommerce.Office.Models.ColaboradorVeiculo", b =>
-                {
-                    b.HasOne("eCommerce.Office.Models.Colaborador", "Colaborador")
-                        .WithMany("ColaboradoresVeiculos")
-                        .HasForeignKey("ColaboradorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eCommerce.Office.Models.Veiculo", "Veiculo")
-                        .WithMany("ColaboradoresVeiculos")
-                        .HasForeignKey("VeiculoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Colaborador");
-
-                    b.Navigation("Veiculo");
-                });
-
             modelBuilder.Entity("eCommerce.Office.Models.Colaborador", b =>
                 {
                     b.Navigation("ColaboradorSetores");
-
-                    b.Navigation("ColaboradoresVeiculos");
                 });
 
             modelBuilder.Entity("eCommerce.Office.Models.Setor", b =>
                 {
                     b.Navigation("ColaboradoresSetores");
-                });
-
-            modelBuilder.Entity("eCommerce.Office.Models.Veiculo", b =>
-                {
-                    b.Navigation("ColaboradoresVeiculos");
                 });
 #pragma warning restore 612, 618
         }

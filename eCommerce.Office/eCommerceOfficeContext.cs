@@ -12,6 +12,7 @@ namespace eCommerce.Office
     {
         public DbSet<Colaborador>? Colaboradores { get; set; }
         public DbSet<ColaboradorSetor>? ColaboradoresSetores { get; set; }
+        //public DbSet<ColaboradorVeiculo>? ColaboradoresVeiculos { get; set; }
         public DbSet<Setor>? Setores { get; set; }
         public DbSet<Turma>? Turmas { get; set; }
         public DbSet<Veiculo>? Veiculos { get; set; }
@@ -23,7 +24,7 @@ namespace eCommerce.Office
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            #region Mapping : ColaboradorSetor
+            #region Mapping : ColaboradorSetor (EF Core 3.1)
             // Many-To-Many: 2x One-To-Many
 
             modelBuilder.Entity<ColaboradorSetor>().HasKey(a => new { a.ColaboradorId, a.SetorId });
@@ -45,12 +46,22 @@ namespace eCommerce.Office
             */
             #endregion
 
-            #region Mapping : Colaborador <=> Turma
+            #region Mapping : Colaborador <=> Turma (EF Core 5+)
             modelBuilder.Entity<Colaborador>().HasMany(a => a.Turmas).WithMany(a => a.Colaboradores);
             #endregion
 
-            #region Seed
+            #region Mapping : Colaborador <=> Veículo + Payload (EF Core 5+)
+            modelBuilder.Entity<Colaborador>()
+                .HasMany(a => a.Veiculos)
+                .WithMany(a => a.Colaboradores)
+                .UsingEntity<ColaboradorVeiculo>(
+                    q => q.HasOne(a => a.Veiculo).WithMany(a => a.ColaboradoresVeiculos).HasForeignKey(a => a.VeiculoId),
+                    q => q.HasOne(a => a.Colaborador).WithMany(a => a.ColaboradoresVeiculos).HasForeignKey(a => a.ColaboradorId),
+                    q => q.HasKey(a => new { a.ColaboradorId, a.VeiculoId })
+                    );
+            #endregion
 
+            #region Seeds
             modelBuilder.Entity<Colaborador>().HasData(
                 new Colaborador() { Id = 1, Nome = "José" },
                 new Colaborador() { Id = 2, Nome = "Maria" },
@@ -76,6 +87,22 @@ namespace eCommerce.Office
                 new ColaboradorSetor() { SetorId = 3, ColaboradorId = 7, Criado = DateTimeOffset.Now },
                 new ColaboradorSetor() { SetorId = 4, ColaboradorId = 2, Criado = DateTimeOffset.Now },
                 new ColaboradorSetor() { SetorId = 4, ColaboradorId = 3, Criado = DateTimeOffset.Now }
+                );
+
+            modelBuilder.Entity<Turma>().HasData(
+                new Turma() { Id = 1, Nome = "Turma A1" },
+                new Turma() { Id = 2, Nome = "Turma A2" },
+                new Turma() { Id = 3, Nome = "Turma A3" },
+                new Turma() { Id = 4, Nome = "Turma A4" },
+                new Turma() { Id = 5, Nome = "Turma A5" }
+                );
+
+            modelBuilder.Entity<Veiculo>().HasData(
+                new Veiculo() { Id = 1, Nome = "FIAT - Argo", Placa = "ABC-1234" },
+                new Veiculo() { Id = 2, Nome = "FIAT - Mobi", Placa = "DFG-1234" },
+                new Veiculo() { Id = 3, Nome = "FIAT - Siena", Placa = "HIJ-1234" },
+                new Veiculo() { Id = 4, Nome = "FIAT - Idea", Placa = "LMN-1234" },
+                new Veiculo() { Id = 5, Nome = "FIAT - Toro", Placa = "OPQ-1234" }
                 );
             #endregion
         }
