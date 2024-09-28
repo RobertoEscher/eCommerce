@@ -12,8 +12,8 @@ using eCommerce.API.Database;
 namespace eCommerce.API.Migrations
 {
     [DbContext(typeof(eCommerceContext))]
-    [Migration("20240922185934_Mudanca05")]
-    partial class Mudanca05
+    [Migration("20240928151329_BancoInicial")]
+    partial class BancoInicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,6 +57,9 @@ namespace eCommerce.API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId")
+                        .IsUnique();
 
                     b.ToTable("Contatos");
                 });
@@ -163,7 +166,7 @@ namespace eCommerce.API.Migrations
                     b.ToTable("EnderecosEntrega");
                 });
 
-            modelBuilder.Entity("eCommerce.Models.Pedido", b =>
+            modelBuilder.Entity("eCommerce.Models.Usuario", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -171,52 +174,20 @@ namespace eCommerce.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ColaboradorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SupervisorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClienteId");
-
-                    b.HasIndex("ColaboradorId");
-
-                    b.HasIndex("SupervisorId");
-
-                    b.ToTable("Pedido");
-                });
-
-            modelBuilder.Entity("eCommerce.Models.Usuario", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.Property<string>("CPF")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset>("DataCadastro")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Matricula")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Matricula"), 1L, 1);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NomeDaMae")
                         .HasColumnType("nvarchar(max)");
@@ -225,32 +196,17 @@ namespace eCommerce.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RG")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("REGISTRO_GERAL");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Sexo")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SituacaoCadastro")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UsuarioId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UsuarioId")
-                        .IsUnique()
-                        .HasFilter("[UsuarioId] IS NOT NULL");
-
-                    b.HasIndex("Nome", "CPF");
-
-                    b.HasIndex(new[] { "Email" }, "IX_EMAIL_UNICO")
-                        .IsUnique();
-
-                    b.ToTable("TB_USUARIOS");
+                    b.ToTable("Usuarios");
                 });
 
             modelBuilder.Entity("DepartamentoUsuario", b =>
@@ -268,6 +224,17 @@ namespace eCommerce.API.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("eCommerce.Models.Contato", b =>
+                {
+                    b.HasOne("eCommerce.Models.Usuario", "Usuario")
+                        .WithOne("Contato")
+                        .HasForeignKey("eCommerce.Models.Contato", "UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("eCommerce.Models.EnderecoEntrega", b =>
                 {
                     b.HasOne("eCommerce.Models.Usuario", "Usuario")
@@ -279,56 +246,11 @@ namespace eCommerce.API.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("eCommerce.Models.Pedido", b =>
-                {
-                    b.HasOne("eCommerce.Models.Usuario", "Cliente")
-                        .WithMany("PedidosCompradosPeloCliente")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eCommerce.Models.Usuario", "Colaborador")
-                        .WithMany("PedidosGerenciadosPeloColaborador")
-                        .HasForeignKey("ColaboradorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eCommerce.Models.Usuario", "Supervisor")
-                        .WithMany("PedidosSupervisionadosPeloColaboradorSupervisor")
-                        .HasForeignKey("SupervisorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cliente");
-
-                    b.Navigation("Colaborador");
-
-                    b.Navigation("Supervisor");
-                });
-
             modelBuilder.Entity("eCommerce.Models.Usuario", b =>
                 {
-                    b.HasOne("eCommerce.Models.Contato", "Contato")
-                        .WithOne("Usuario")
-                        .HasForeignKey("eCommerce.Models.Usuario", "UsuarioId");
-
                     b.Navigation("Contato");
-                });
 
-            modelBuilder.Entity("eCommerce.Models.Contato", b =>
-                {
-                    b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("eCommerce.Models.Usuario", b =>
-                {
                     b.Navigation("EnderecosEntrega");
-
-                    b.Navigation("PedidosCompradosPeloCliente");
-
-                    b.Navigation("PedidosGerenciadosPeloColaborador");
-
-                    b.Navigation("PedidosSupervisionadosPeloColaboradorSupervisor");
                 });
 #pragma warning restore 612, 618
         }
