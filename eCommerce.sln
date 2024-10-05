@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCommerce.Models.FluentAPI"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCommerce.Office", "eCommerce.Office\eCommerce.Office.csproj", "{4BFAFAA8-7D51-41C1-A3B4-32382473496B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eCommerce.Console.Tracking", "eCommerce.Console.Tracking\eCommerce.Console.Tracking.csproj", "{F85778B1-ADCD-4CB7-8EC3-D0C643447A85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCommerce.Console.Tracking", "eCommerce.Console.Tracking\eCommerce.Console.Tracking.csproj", "{F85778B1-ADCD-4CB7-8EC3-D0C643447A85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eCommerce.Console.Query", "eCommerce.Console.Query\eCommerce.Console.Query.csproj", "{A83834D2-F095-4356-8492-422CF0DE135E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{F85778B1-ADCD-4CB7-8EC3-D0C643447A85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F85778B1-ADCD-4CB7-8EC3-D0C643447A85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F85778B1-ADCD-4CB7-8EC3-D0C643447A85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A83834D2-F095-4356-8492-422CF0DE135E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A83834D2-F095-4356-8492-422CF0DE135E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A83834D2-F095-4356-8492-422CF0DE135E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A83834D2-F095-4356-8492-422CF0DE135E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
